@@ -21,6 +21,8 @@ spec:
         env:
         - name: ELASTICSEARCH_HOSTS
           value: "http://elasticsearch.logging.svc.cluster.local:9200"
+        - name: I18N_LOCALE
+          value: "pt-BR"
         resources:
           requests:
             memory: "512Mi"
