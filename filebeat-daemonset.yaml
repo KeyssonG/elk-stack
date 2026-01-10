@@ -19,6 +19,7 @@ data:
               logs_path: "/var/log/containers/"
     output.elasticsearch:
       hosts: ['10.43.227.112:9200']
+    logging.level: debug  
 ---
 apiVersion: apps/v1
 kind: DaemonSet
