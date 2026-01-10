@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-config
+  namespace: logging
+data:
+  kibana.yml: |
+    server.host: "0.0.0.0"
+    elasticsearch.hosts: ["http://elasticsearch.logging.svc.cluster.local:9200"]
+    server.i18n.locale: "pt-BR"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,8 +32,10 @@ spec:
         env:
         - name: ELASTICSEARCH_HOSTS
           value: "http://elasticsearch.logging.svc.cluster.local:9200"
-        - name: I18N_LOCALE
-          value: "pt-BR"
+        volumeMounts:
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
         resources:
           requests:
             memory: "512Mi"
@@ -30,3 +43,7 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
+      volumes:
+      - name: kibana-config
+        configMap:
+          name: kibana-config
