@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elk-stack
+  namespace: argocd  # namespace onde o ArgoCD está instalado
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/KeyssonG/elk-stack.git'  # substitua pela URL real
+    targetRevision: main
+    path: '.'  # caminho onde estão os manifests (root do repositório)
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: logging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
